@@ -19,10 +19,8 @@ package entities
 		private var su:Point = new Point();
 		
 		public function Star(scale_temp:Number = 5, power_temp:int = 2, angle_temp:Number=0, mask:Mask=null)
-		{
-			image.randFrame();
-			
-			size = image.frame;
+		{			
+			size = image.frame = Math.floor(Math.random() * 10);
 			
 			scale = scale_temp;
 			power = power_temp;

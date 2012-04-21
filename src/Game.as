@@ -11,6 +11,7 @@ package
 	import net.flashpunk.graphics.Image;
 	import net.flashpunk.graphics.Text;
 	import net.flashpunk.utils.Input;
+	import net.flashpunk.utils.Key;
 	
 	public class Game extends World
 	{
@@ -20,40 +21,37 @@ package
 		private var zoom:int = 1;
 		public var scale:Number = 0.1;
 		public var power:int = 1;
-		
-		private var cursor_img:Image = Image.createRect(1,1,0xff000000);
-		public var cursor:Entity = new Entity(0, 0, cursor_img);
+
+		public var cursor:Cursor = new Cursor();
 		
 		private var zoom_snd:Sfx = new Sfx(Assets.SN_ZOOM);
 		private var money_disp:Text = new Text("$" + money.toString(), 0, 0, 50, 20);
+		private var tip_disp:Text = new Text("tutorial here.", 0, 0, 250, 20);
+		private var tip:Entity = new Entity( 50, FP.height - 25, tip_disp);
 		
 		public function Game()
 		{
 			Main.game = this;
-			add(cursor);
-			cursor.type = "cursor";
-			cursor_img.alpha = 0;
-			
-			add(earth);
 			
 //			add(new Power());
 			
+			// Random stars
 			var i:int;
 			for (i=1; i<10; i++)
 			{
 				add(new Star(Math.random() * 10, 6, Math.random() * 2 * Math.PI));
 			}
 			
-			
 			// The warm yellow sun
 			add(new Star(5, 2, 0.5));
-			
-			add(new Transport(FP.width/2, FP.height/2, 200, 30, "cash"));
+			add(earth);
 			
 			money_disp.size = 16;
-			add(new Entity(6, FP.height - 25, money_disp));		
-			add(new Button(FP.width - 30, FP.height - 25, 0));
-			add(new Button(FP.width - 60, FP.height - 25, 1));
+			add(new Entity(6, FP.height - 25, money_disp));
+			add(tip);
+			add(new Button(FP.width - 30, FP.height - 25, 0, cursor.build));
+			add(new Button(FP.width - 60, FP.height - 25, 1, cursor.build));
+			add(cursor);
 		}
 		
 		override public function update():void
@@ -86,8 +84,8 @@ package
 			// Debug
 //			trace(scale.toString() + " x 10^" + power + " ly");
 			
-			cursor.x = Input.mouseX;
-			cursor.y = Input.mouseY;
+			if(Input.pressed(Key.ESCAPE))
+				cursor.reset_cursor();
 			
 			super.update();
 		}
