@@ -11,7 +11,7 @@ package entities
 		
 		public function Earth(x:Number=0, y:Number=0,mask:Mask=null)
 		{
-			image.add("spin", [0, 1], 4);
+			image.add("spin", [0, 1, 2, 3, 4, 5, 6, 7], 12);
 			image.play("spin");
 			
 			super(x, y, image, mask);

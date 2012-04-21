@@ -12,7 +12,7 @@ package entities
 		public function Planet(x:Number=0, y:Number=0, mask:Mask=null)
 		{
 			image.add("moon", [2], 0);
-			image.play("moon");
+			image.randFrame();
 			
 			super(x, y, image, mask);
 		}

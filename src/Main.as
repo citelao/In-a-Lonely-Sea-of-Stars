@@ -8,6 +8,8 @@ package
 	
 	public class Main extends Engine
 	{
+		public static var game:Game;
+		
 		public function Main()
 		{			
 			super(320, 240);
