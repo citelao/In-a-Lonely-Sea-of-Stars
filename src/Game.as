@@ -2,6 +2,8 @@ package
 {
 	import entities.*;
 	
+	import flash.geom.Point;
+	
 	import net.flashpunk.Entity;
 	import net.flashpunk.FP;
 	import net.flashpunk.Sfx;
@@ -19,28 +21,39 @@ package
 		public var scale:Number = 0.1;
 		public var power:int = 1;
 		
+		private var cursor_img:Image = Image.createRect(1,1,0xff000000);
+		public var cursor:Entity = new Entity(0, 0, cursor_img);
+		
 		private var zoom_snd:Sfx = new Sfx(Assets.SN_ZOOM);
 		private var money_disp:Text = new Text("$" + money.toString(), 0, 0, 50, 20);
 		
 		public function Game()
 		{
 			Main.game = this;
+			add(cursor);
+			cursor.type = "cursor";
+			cursor_img.alpha = 0;
 			
 			add(earth);
 			
-			add(new Power());
+//			add(new Power());
 			
 			var i:int;
-//			for (i=1; i<11; i++)
-//			{
-//				add(new Star(Math.random() * 10 + 4, Math.ceil(Math.random() * 10), Math.random() * 2 * Math.PI));
-//			}
-//			
-			add(new Star(10, 2, 0.5));
+			for (i=1; i<10; i++)
+			{
+				add(new Star(Math.random() * 10, 6, Math.random() * 2 * Math.PI));
+			}
+			
+			
+			// The warm yellow sun
+			add(new Star(5, 2, 0.5));
 			
 			add(new Transport(FP.width/2, FP.height/2, 200, 30, "cash"));
 			
-			add(new Entity(FP.width - 90, FP.height - 20, money_disp));			
+			money_disp.size = 16;
+			add(new Entity(6, FP.height - 25, money_disp));		
+			add(new Button(FP.width - 30, FP.height - 25, 0));
+			add(new Button(FP.width - 60, FP.height - 25, 1));
 		}
 		
 		override public function update():void
@@ -73,6 +86,9 @@ package
 			// Debug
 //			trace(scale.toString() + " x 10^" + power + " ly");
 			
+			cursor.x = Input.mouseX;
+			cursor.y = Input.mouseY;
+			
 			super.update();
 		}
 		
@@ -82,6 +98,16 @@ package
 			
 			money_disp.text = "$" + money.toString();			
 			money_disp.updateBuffer();
+		}
+		
+		public function pixel_pos(pscale:Number = 0, ppower:int = 0):Point
+		{
+			var point:Point = new Point();
+			
+			point.x = (FP.width * (pscale + 10 * ppower)) / (2 * (Main.game.scale + 10 * Main.game.power));
+			point.y = (FP.height * (pscale + 10 * ppower)) / (2 * (Main.game.scale + 10 * Main.game.power));
+			
+			return point;
 		}
 	}
 }

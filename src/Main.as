@@ -4,7 +4,7 @@ package
 	import net.flashpunk.FP;
 	import net.flashpunk.Screen;
 	
-	[SWF(width="1280", height="960")]
+	[SWF(width="640", height="480")]
 	
 	public class Main extends Engine
 	{
@@ -12,7 +12,7 @@ package
 		
 		public function Main()
 		{			
-			super(640, 480);
+			super(320, 240);
 			
 			FP.screen.scale = 2;
 			FP.screen.color = 0x0024273d;
