@@ -28,10 +28,10 @@ package entities
 		
 		override public function update():void
 		{
-			if( Main.game.zoom / 10 >= 2 )
+			if( Main.game.power >= 3 )
 			{
 				image.setFrame(2, 1);
-			} else if ( Main.game.zoom / 10 >= 1 ) {
+			} else if ( Main.game.power >= 2 ) {
 				image.setFrame(1, 1);
 			} else {
 				image.play("spin");
