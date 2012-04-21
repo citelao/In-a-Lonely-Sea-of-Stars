@@ -23,24 +23,31 @@ package
 			
 			add(earth);
 			
-			add(new Planet(0, 0));
+			add(new Star(200, 30));
 			
-			add(new Transport(70, 120, 0, 0));
+			add(new Transport(FP.width/2, FP.height/2, 200, 30, "cash"));
 			
-			add(new Entity(200, 200, money_disp));
-			
-			money--;
-			
+			add(new Entity(200, 200, money_disp));			
 		}
 		
-//		override public function update():void
-//		{			
-//			zoom -= Input.mouseWheelDelta;
-//			
-//			if(zoom < 0)
-//				zoom = 0;
-//			
-//			//TODO make zoom do stuff
-//		}
+		override public function update():void
+		{
+			zoom -= Input.mouseWheelDelta;
+						
+			if(zoom < 0)
+				zoom = 0;
+			
+			//TODO make zoom do stuff.
+			
+			super.update();
+		}
+		
+		public function pay(amt:int):void
+		{
+			money += amt;
+			
+			money_disp.text = "$" + money.toString();			
+			money_disp.updateBuffer();
+		}
 	}
 }
