@@ -43,14 +43,14 @@ package
 			}
 			
 			// The warm yellow sun
-			add(new Star(5, 2, 0.5));
+			add(new Star(5, 2, 0.5, 2));
 			add(earth);
 			
 			money_disp.size = 16;
 			add(new Entity(6, FP.height - 25, money_disp));
 			add(tip);
-			add(new Button(FP.width - 30, FP.height - 25, 0, cursor.build));
-			add(new Button(FP.width - 60, FP.height - 25, 1, cursor.build));
+			add(new Button(FP.width - 30, FP.height - 25, 0, cursor.pre_build_turret));
+			add(new Button(FP.width - 60, FP.height - 25, 1, cursor.pre_build_mine));
 			add(cursor);
 		}
 		

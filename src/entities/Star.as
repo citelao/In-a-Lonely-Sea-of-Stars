@@ -12,21 +12,31 @@ package entities
 	{
 		private var image:Spritemap = new Spritemap(Assets.STAR, 80, 80);
 		private var size:int;
+		
+		private var hitboxSizes:Array = new Array(80, 70, 60, 50, 40, 30, 20, 10, 5, 3, 1); 
+		
 		private var angle:Number;
 		private var scale:Number;
 		private var power:int;
 		
 		private var su:Point = new Point();
 		
-		public function Star(scale_temp:Number = 5, power_temp:int = 2, angle_temp:Number=0, mask:Mask=null)
+		public function Star(scale_temp:Number = 5, power_temp:int = 2, angle_temp:Number=0, size_temp:int = 0)
 		{			
-			size = image.frame = Math.floor(Math.random() * 10);
+			super(x - 40, y - 40, image);
+			
+			if(!size_temp)
+				size = image.frame = Math.floor(Math.random() * 10);
+			else
+				size = image.frame = size_temp;
+			
+			type = "star";
+			setHitbox(80,80);
+			collidable = true;
 			
 			scale = scale_temp;
 			power = power_temp;
 			angle = angle_temp;
-			
-			super(x - 40, y - 40, image, mask);
 		}
 		
 		override public function update():void
@@ -42,12 +52,12 @@ package entities
 			
 //			trace(image.frame - Main.game.power + power);
 			
-			if(image.frame - Main.game.power + power <= 0) {
+			if(image.frame - Main.game.power + power <= 0)
 				image.alpha = 0;
-			} else {
+			else
 				image.alpha = 1;
-			}
 			
+			setHitbox(hitboxSizes[image.frame], hitboxSizes[image.frame], -40 + hitboxSizes[image.frame] / 2, -40 + hitboxSizes[image.frame] / 2);
 		}
 	}
 }

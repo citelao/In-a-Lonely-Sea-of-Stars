@@ -12,5 +12,7 @@
 		
 		[Embed(source="../asset/sound/zoom-out.mp3")] public static const SN_ZOOM:Class;
 		[Embed(source="../asset/sound/select-item.mp3")] public static const SN_SELECT:Class;
+		[Embed(source="../asset/sound/place-item.mp3")] public static const SN_PLACE:Class;
+		[Embed(source="../asset/sound/cancel-item.mp3")] public static const SN_CANCEL:Class;
 	}
 }

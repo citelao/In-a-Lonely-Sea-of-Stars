@@ -5,6 +5,7 @@ package entities
 	import net.flashpunk.Entity;
 	import net.flashpunk.Graphic;
 	import net.flashpunk.Mask;
+	import net.flashpunk.Sfx;
 	import net.flashpunk.graphics.Image;
 	import net.flashpunk.graphics.Spritemap;
 	import net.flashpunk.utils.Input;
@@ -15,48 +16,92 @@ package entities
 		private var mines:Spritemap = new Spritemap(Assets.MINE, 13, 7);
 		private var square:Image = Image.createRect(1,1,0xff000000);
 		
+		private var place:Sfx = new Sfx(Assets.SN_PLACE);
+		private var cancel:Sfx = new Sfx(Assets.SN_CANCEL);
+
 		private var gx:int;
 		private var gy:int;
 		
-		public function Cursor(x:Number=0, y:Number=0)
+		public function Cursor()
 		{
+			super(0, 0, square);
+			
 			type = "cursor";
 			
 			square.alpha = 0;
-			graphic = square;
 			
 			gx = 0;
 			gy = 0;
+			
+			height = 5;
+			width = 5;
 		}
 		
 		override public function update():void
-		{
+		{			
 			x = Input.mouseX - gx;
-			y = Input.mouseY - gy;
+			y = Input.mouseY - gy;		
+			
+			if( collide("star", x, y) ) {
+				mines.frame = 0;
+			} else {
+				mines.frame = 1;
+			}
+			
+			if(Input.mouseReleased)
+			{
+				switch(graphic)
+				{
+					case mines:
+						if( mines.frame == 0 )
+							build("mine");
+						break;
+					case turrets:
+						if( mines.frame != 0 )
+							build("turret");
+						break;
+				}
+			}
 		}
 		
 		public function build(object:String = "mine"):void
 		{
-			if(object == "mine") 
-			{	
-				graphic = mines;
-				Mouse.hide();
+			place.play();
+			
+			if( object == "mine" ) { 
+			} else { //build a turret
 				
-				gx = 6;
-				gy = 3;
-			} else {
-				graphic = turrets;
-				Mouse.hide();
-				
-				gx = 50;
-				gy = 50;
 			}
+		}
+		
+		public function pre_build_mine():void
+		{
+			graphic = mines;
+			Mouse.hide();
+				
+			gx = 6;
+			gy = 3;
+		}
+		
+		public function pre_build_turret():void
+		{
+			graphic = turrets;
+			Mouse.hide();
+			
+			gx = 50;
+			gy = 50;
 		}
 		
 		public function reset_cursor():void
 		{
+			if( graphic != square )
+				cancel.play();
+			
 			graphic = square;
 			Mouse.show();
+			
+			gx = 0;
+			gy = 0;
 		}
 	}
 }

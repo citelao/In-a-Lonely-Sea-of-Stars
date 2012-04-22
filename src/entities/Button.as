@@ -20,18 +20,20 @@ package entities
 		{			
 			_col = image.frame = frame_col;
 			
+			super(x, y, image);
+			
+			type = "button";
+			
 			width = 24;
 			height = 20;
 			
 			this.callback = callback;
-			
-			super(x, y, image, mask);
 		}
 		
 		override public function update():void
 		{
 			if( collide("cursor", x, y) ) {
-				if( Input.mousePressed)
+				if( Input.mouseReleased)
 				{
 					_snd.play();
 					
