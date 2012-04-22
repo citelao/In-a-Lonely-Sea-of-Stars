@@ -12,8 +12,9 @@ package entities
 	{
 		private var image:Spritemap = new Spritemap(Assets.STAR, 80, 80);
 		private var size:int;
+		public var harvested:Boolean = false;
 		
-		private var hitboxSizes:Array = new Array(80, 70, 60, 50, 40, 30, 20, 10, 5, 3, 1); 
+		private var hitboxSizes:Array = new Array(80, 70, 60, 50, 40, 30, 20, 10, 5, 3, 1);
 		
 		private var angle:Number;
 		private var scale:Number;

@@ -32,7 +32,7 @@ package
 		public function Game()
 		{
 			Main.game = this;
-			
+				
 //			add(new Power());
 			
 			// Random stars

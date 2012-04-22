@@ -42,7 +42,9 @@ package entities
 			x = Input.mouseX - gx;
 			y = Input.mouseY - gy;		
 			
-			if( collide("star", x, y) ) {
+			var star:Star = collide("star", x, y) as Star;
+			
+			if( star && !star.harvested ) {
 				mines.frame = 0;
 			} else {
 				mines.frame = 1;
@@ -69,6 +71,15 @@ package entities
 			place.play();
 			
 			if( object == "mine" ) { 
+				var star:Star = collide("star", x, y) as Star;
+				
+				if(!star || star.harvested)
+					return;
+				
+				star.harvested = true;
+				
+				Main.game.add(new Trail(star));
+				
 			} else { //build a turret
 				
 			}
