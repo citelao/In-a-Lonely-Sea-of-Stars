@@ -10,6 +10,7 @@
 		[Embed(source="../asset/graphic/turret.png")] public static const TURRET:Class;
 		[Embed(source="../asset/graphic/mine.png")] public static const MINE:Class;
 		[Embed(source="../asset/graphic/tutorial.png")] public static const TUTORIAL:Class;
+		[Embed(source="../asset/graphic/asteroid.png")] public static const ASTEROID:Class;
 		
 		[Embed(source="../asset/sound/zoom-out.mp3")] public static const SN_ZOOM_OUT:Class;
 		[Embed(source="../asset/sound/zoom-in.mp3")] public static const SN_ZOOM_IN:Class;

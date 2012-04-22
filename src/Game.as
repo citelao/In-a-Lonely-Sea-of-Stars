@@ -56,6 +56,8 @@ package
 			add(new Button(FP.width - 30, FP.height - 25, 0, cursor.pre_build_turret));
 			add(new Button(FP.width - 60, FP.height - 25, 1, cursor.pre_build_mine));
 			add(cursor);
+			
+			add(new Asteroid(sun));
 		}
 		
 		override public function update():void
@@ -113,6 +115,18 @@ package
 			point.y = (FP.height * (pscale + 10 * ppower)) / (2 * (Main.game.scale + 10 * Main.game.power));
 			
 			return point;
+		}
+		
+		public function scale_pos(x:Number = 0, y:Number = 0):Point
+		{
+			var p:Point = new Point;
+			
+			var d:Number = Main.game.scale + 10 * Main.game.power;
+			
+			p.x = Math.floor(2 * d * x / FP.width / 10); // = s + 10m
+			p.y = 2 * d * x / FP.width - 10 * p.x;
+			
+			return p;
 		}
 	}
 }

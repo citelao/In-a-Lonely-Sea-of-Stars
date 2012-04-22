@@ -47,7 +47,6 @@ package entities
 			_ship.alpha = 1;
 			
 			var power_dif:Number = _power / (Main.game.power + 1);
-			trace(power_dif);
 			
 			if( _completion <= 1.1 )
 				_completion += FP.elapsed * 0.1;

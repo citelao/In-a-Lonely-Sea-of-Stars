@@ -54,11 +54,11 @@ package entities
 			{
 				switch(graphic)
 				{
-					case mines:
+					case mines:						
 						if( mines.frame == 0 )
 							build("mine");
 						break;
-					case turrets:
+					case turrets:						
 						if( mines.frame != 0 )
 							build("turret");
 						break;
@@ -82,7 +82,7 @@ package entities
 				Main.game.add(new Trail(star, star.power));
 				
 			} else { //build a turret
-				
+				Main.game.add(new Turret());
 			}
 		}
 		
