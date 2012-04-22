@@ -14,6 +14,7 @@ package entities
 		public function Earth(x:Number=0, y:Number=0)
 		{			
 			image.add("spin", [0, 1, 2, 3, 4, 5, 6, 7], 12);
+			image.add("small spin",[10, 9, 23, 22, 21, 20, 19, 18, 17, 16], 12);
 			image.play("spin");
 //			image.alpha = 0.2;
 			
@@ -33,9 +34,9 @@ package entities
 		{
 			if( Main.game.power >= 3 )
 			{
-				image.setFrame(2, 1);
+				image.setFrame(7, 1);
 			} else if ( Main.game.power >= 2 ) {
-				image.setFrame(1, 1);
+				image.play("small spin");
 			} else {
 				image.play("spin");
 			}

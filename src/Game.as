@@ -24,7 +24,8 @@ package
 
 		public var cursor:Cursor = new Cursor();
 		
-		private var zoom_snd:Sfx = new Sfx(Assets.SN_ZOOM);
+		private var zoom_out_snd:Sfx = new Sfx(Assets.SN_ZOOM_OUT);
+		private var zoom_in_snd:Sfx = new Sfx(Assets.SN_ZOOM_IN);
 		private var money_disp:Text = new Text("$" + money.toString(), 0, 0, 50, 20);
 		private var tip_disp:Text = new Text("tutorial here.", 0, 0, 250, 20);
 		private var tip:Entity = new Entity( 50, FP.height - 25, tip_disp);
@@ -73,8 +74,11 @@ package
 			power = Math.floor(zoom / 50) + 1;
 			
 			// Play a sound if the power has changed
-			if( power != old_power )
-				zoom_snd.play();
+			if( power < old_power )
+				zoom_in_snd.play();
+			
+			if( power > old_power )
+				zoom_out_snd.play();
 			
 			// Calculate the scale (magnitude) from 1 - 10 by
 			// 1. figuring out the difference (out of 50) since the last power
