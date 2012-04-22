@@ -34,6 +34,8 @@ package entities
 			_start = start;
 			
 			_cargo = cargo;
+			
+			layer = 1;
 		}
 		
 		override public function update():void
@@ -43,7 +45,7 @@ package entities
 			if( _completion <= 1.1 )
 				_completion += FP.elapsed * 0.1;
 			
-			_ship.angle = -90 + 180 * Math.atan2(_dest.centerY - y, _dest.centerX - x) / Math.PI;
+			_ship.angle = 90 + 180 * Math.atan2(_dest.centerY - y, _dest.centerX - x) / Math.PI;
 			
 			x = (_dest.centerX - _start.centerX) * _completion + _start.centerX;
 			y = (_dest.centerY - _start.centerY) * _completion + _start.centerY;
@@ -63,7 +65,7 @@ package entities
 			if(_cargo == "cash")
 			{
 				opposite_cargo = "juice";
-				Main.game.pay(40);
+				Main.game.pay(10);
 			} else { 
 				opposite_cargo = "cash";
 			}

@@ -23,7 +23,7 @@ package entities
 				src_y = Main.game.earth.y + 11;
 			}
 			
-			layer = 1;
+			layer = 2;
 			
 			_src_x = src_x;
 			_src_y = src_y;
@@ -42,7 +42,7 @@ package entities
 			_percent = _counter / _time;
 				
 			var _i:Number = 0;
-			while(_i <= Math.floor(_percent * 10) - _spawned)
+			while(_i < Math.floor(_percent * 10) - _spawned)
 			{
 				trace("hi", _i, _spawned, _percent);
 				_i++;

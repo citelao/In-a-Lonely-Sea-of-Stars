@@ -44,7 +44,7 @@ package entities
 			
 			var star:Star = collide("star", x, y) as Star;
 			
-			if( star && !star.harvested ) {
+			if( star && !star.harvested && Main.game.money >= 200 ) {
 				mines.frame = 0;
 			} else {
 				mines.frame = 1;
@@ -73,11 +73,12 @@ package entities
 			if( object == "mine" ) { 
 				var star:Star = collide("star", x, y) as Star;
 				
-				if(!star || star.harvested)
+				if(!star || star.harvested || Main.game.money < 200)
 					return;
 				
 				star.harvested = true;
 				
+				Main.game.pay(-200);
 				Main.game.add(new Trail(star));
 				
 			} else { //build a turret

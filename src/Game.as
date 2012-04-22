@@ -9,6 +9,7 @@ package
 	import net.flashpunk.Sfx;
 	import net.flashpunk.World;
 	import net.flashpunk.graphics.Image;
+	import net.flashpunk.graphics.Spritemap;
 	import net.flashpunk.graphics.Text;
 	import net.flashpunk.utils.Input;
 	import net.flashpunk.utils.Key;
@@ -16,7 +17,7 @@ package
 	public class Game extends World
 	{
 		public var earth:Earth = new Earth(FP.width/2-11, FP.height/2-11);
-		public var money:int = 100;
+		public var money:int = 200;
 		
 		private var zoom:int = 1;
 		public var scale:Number = 0.1;
@@ -27,7 +28,7 @@ package
 		private var zoom_out_snd:Sfx = new Sfx(Assets.SN_ZOOM_OUT);
 		private var zoom_in_snd:Sfx = new Sfx(Assets.SN_ZOOM_IN);
 		private var money_disp:Text = new Text("$" + money.toString(), 0, 0, 50, 20);
-		private var tip_disp:Text = new Text("tutorial here.", 0, 0, 250, 20);
+		private var tip_disp:Spritemap = new Spritemap(Assets.TUTORIAL, 404, 20);
 		private var tip:Entity = new Entity( 50, FP.height - 25, tip_disp);
 		
 		public function Game()
@@ -51,6 +52,7 @@ package
 			money_disp.size = 16;
 			add(new Entity(6, FP.height - 25, money_disp));
 			add(tip);
+			tip_disp.setFrame(0, 4);
 			add(new Button(FP.width - 30, FP.height - 25, 0, cursor.pre_build_turret));
 			add(new Button(FP.width - 60, FP.height - 25, 1, cursor.pre_build_mine));
 			add(cursor);

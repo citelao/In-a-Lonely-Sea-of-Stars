@@ -14,13 +14,14 @@ package entities
 		public function Earth(x:Number=0, y:Number=0)
 		{			
 			image.add("spin", [0, 1, 2, 3, 4, 5, 6, 7], 12);
-			image.add("small spin",[10, 9, 23, 22, 21, 20, 19, 18, 17, 16], 12);
+			image.add("small spin", [10, 9, 23, 22, 21, 20, 19, 18, 17, 16], 12);
 			image.play("spin");
-//			image.alpha = 0.2;
 			
 			atmosphere.setFrame(0, 1);
 			
 			super(x, y, image);
+			
+			setHitbox(22, 22);
 		}
 		
 		override public function added():void
