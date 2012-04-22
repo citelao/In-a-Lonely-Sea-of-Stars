@@ -7,6 +7,7 @@ package entities
 	import net.flashpunk.FP;
 	import net.flashpunk.Graphic;
 	import net.flashpunk.Mask;
+	import net.flashpunk.graphics.Emitter;
 	import net.flashpunk.graphics.Spritemap;
 	import net.flashpunk.tweens.misc.VarTween;
 	import net.flashpunk.utils.Input;
@@ -22,6 +23,7 @@ package entities
 		private var _completion:Number = 0.0;
 		
 		private var _cargo:String;
+		
 		
 		public function Transport(start:Entity, dest:Entity, power:Number, cargo:String = "cash")
 		{
@@ -70,6 +72,7 @@ package entities
 			{
 				opposite_cargo = "supplies";
 				Main.game.pay(10);
+				Main.game.emitter.emit("dollar", x, y);
 			} else { 
 				opposite_cargo = "cash";
 			}

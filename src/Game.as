@@ -8,6 +8,7 @@ package
 	import net.flashpunk.FP;
 	import net.flashpunk.Sfx;
 	import net.flashpunk.World;
+	import net.flashpunk.graphics.Emitter;
 	import net.flashpunk.graphics.Image;
 	import net.flashpunk.graphics.Spritemap;
 	import net.flashpunk.graphics.Text;
@@ -24,6 +25,7 @@ package
 		public var power:int = 1;
 
 		public var cursor:Cursor = new Cursor();
+		public var emitter:Emitter = new Emitter(Assets.DOLLAR, 4, 6);
 		
 		private var zoom_out_snd:Sfx = new Sfx(Assets.SN_ZOOM_OUT);
 		private var zoom_in_snd:Sfx = new Sfx(Assets.SN_ZOOM_IN);
@@ -36,6 +38,11 @@ package
 			Main.game = this;
 				
 //			add(new Power());
+			
+			addGraphic(emitter);
+			emitter.newType("dollar", [0]);
+			emitter.setAlpha("dollar", 1, 0);
+			emitter.setMotion("dollar", 90, 20, 0.2, 40, 10, 0.3);
 			
 			// Random stars
 			var i:int;
@@ -90,6 +97,8 @@ package
 			// 3. subtracting that number from 11 to flip the number from loss to gain
 			scale = 11 - (50 * power - zoom) / 5;
 			
+			trace(zoom, power, scale, zoom / 50 + 1 );
+			
 			// Debug
 //			trace(scale.toString() + " x 10^" + power + " ly");
 			
@@ -117,14 +126,22 @@ package
 			return point;
 		}
 		
-		public function scale_pos(x:Number = 0, y:Number = 0):Point
+		public function scale_pos(x:Number = 0, y:Number = 0):Object
 		{
-			var p:Point = new Point;
+			var p:Object = new Object();
 			
 			var d:Number = Main.game.scale + 10 * Main.game.power;
 			
-			p.x = Math.floor(2 * d * x / FP.width / 10); // = s + 10m
-			p.y = 2 * d * x / FP.width - 10 * p.x;
+//			trace("yo", 2 * d * x / FP.width, 2 * d * y / FP.height); 
+//			2 * d * x / FP.width = r;
+//			2 * d * y / FP.height = r;
+			
+			p.zoom = Math.sqrt( (2 * d * x / FP.width) ^ 2 + (2 * d * y / FP.height) ^ 2 );
+			
+			trace(p.zoom);
+			
+			p.power = Math.floor(p.zoom / 10); // = s + 10m
+			p.scale = p.zoom - 10 * p.power;
 			
 			return p;
 		}

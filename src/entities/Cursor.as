@@ -80,9 +80,8 @@ package entities
 				
 				Main.game.pay(-200);
 				Main.game.add(new Trail(star, star.power));
-				
-			} else { //build a turret
-				Main.game.add(new Turret());
+			} else { //build a turret				
+				Main.game.add(new Turret(Input.mouseX - Main.game.earth.centerX, - Main.game.earth.centerY + Input.mouseY));
 			}
 		}
 		
