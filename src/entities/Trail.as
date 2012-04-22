@@ -15,8 +15,9 @@ package entities
 		private var _counter:Number = 0;
 		private var _percent:Number = 0;
 		private var _spawned:Number;
+		private var _power:Number;
 		
-		public function Trail(dest:Entity = null, time:Number = 5, src_x:Number = 0, src_y:Number = 0)
+		public function Trail(dest:Entity, power:Number, time:Number = 5, src_x:Number = 0, src_y:Number = 0)
 		{
 			if(!src_x || !src_y) {
 				src_x = Main.game.earth.x + 11;
@@ -30,6 +31,7 @@ package entities
 			_dest = dest;
 			_time = time;
 			_spawned = 0;
+			_power = power;
 			
 			super();
 		}
@@ -44,10 +46,10 @@ package entities
 			var _i:Number = 0;
 			while(_i < Math.floor(_percent * 10) - _spawned)
 			{
-				trace("hi", _i, _spawned, _percent);
+				trace("spawning new transport", _i, _spawned, _percent);
 				_i++;
 				_spawned++;
-				Main.game.add(new Transport(Main.game.earth, _dest));
+				Main.game.add(new Transport(Main.game.earth, _dest, _power, "supplies"));
 			}
 		}
 		

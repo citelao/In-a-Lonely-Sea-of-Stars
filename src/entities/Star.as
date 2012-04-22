@@ -10,21 +10,21 @@ package entities
 	
 	public class Star extends Entity
 	{
-		private var image:Spritemap = new Spritemap(Assets.STAR, 80, 80);
+		private var image:Spritemap = new Spritemap(Assets.STAR, 100, 100);
 		private var size:int;
 		public var harvested:Boolean = false;
 		
 		private var hitboxSizes:Array = new Array(80, 70, 60, 50, 40, 30, 20, 10, 5, 3, 1);
 		
-		private var angle:Number;
-		private var scale:Number;
-		private var power:int;
+		public var angle:Number;
+		public var scale:Number;
+		public var power:int;
 		
 		private var su:Point = new Point();
 		
 		public function Star(scale_temp:Number = 5, power_temp:int = 2, angle_temp:Number=0, size_temp:int = 0)
 		{			
-			super(x - 40, y - 40, image);
+			super(x - 50, y - 50, image);
 			
 			if(!size_temp)
 				size = image.frame = Math.floor(Math.random() * 10);
@@ -46,8 +46,8 @@ package entities
 			
 			su = Main.game.pixel_pos(scale, power);
 				
-			x = Main.game.earth.x - 33 + su.x * Math.cos(angle);
-			y = Main.game.earth.y - 33 + su.y * Math.sin(angle);
+			x = Main.game.earth.x - 39 + su.x * Math.cos(angle);
+			y = Main.game.earth.y - 39 + su.y * Math.sin(angle);
 			
 			image.frame = size + power_dif + 2;
 			
@@ -58,7 +58,7 @@ package entities
 			else
 				image.alpha = 1;
 			
-			setHitbox(hitboxSizes[image.frame], hitboxSizes[image.frame], -40 + hitboxSizes[image.frame] / 2, -40 + hitboxSizes[image.frame] / 2);
+			setHitbox(hitboxSizes[image.frame], hitboxSizes[image.frame], -50 + hitboxSizes[image.frame] / 2, -50 + hitboxSizes[image.frame] / 2);
 		}
 	}
 }

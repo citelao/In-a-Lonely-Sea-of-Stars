@@ -79,7 +79,7 @@ package entities
 				star.harvested = true;
 				
 				Main.game.pay(-200);
-				Main.game.add(new Trail(star));
+				Main.game.add(new Trail(star, star.power));
 				
 			} else { //build a turret
 				

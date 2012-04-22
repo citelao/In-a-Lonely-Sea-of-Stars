@@ -20,6 +20,7 @@ package
 			FP.screen.color = 0x0024273d;
 			
 			trace("good work, everyone");
+			trace("");
 			
 			FP.world = new Game();
 		}
