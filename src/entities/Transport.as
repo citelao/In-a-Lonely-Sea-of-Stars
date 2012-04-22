@@ -1,6 +1,5 @@
 package entities
 {
-	import Game;
 	
 	import flash.geom.Point;
 	
@@ -13,40 +12,46 @@ package entities
 	
 	public class Transport extends Entity
 	{
-		private var ship:Spritemap = new Spritemap(Assets.TRANSPORT_SHIP, 4, 1);
-		public var destination:Point;
-		private var start:Point;
+		private var _ship:Spritemap = new Spritemap(Assets.TRANSPORT_SHIP, 4, 1);
+		private var _dest:Entity;
+		private var _start:Entity;
 		private var angle_rad:Number;
-		private var cargo:String = "";
+		private var _cargo:String;
+		private var _randomer:Number;
+		private var _completion:Number = 0.0;
 		
 		public var velocity:Number = 40;
 		
-		public function Transport(x:Number=0, y:Number=0, dest_x:Number = 0, dest_y:Number = 0, cargo_temp:String = "cash")
+		public function Transport(start:Entity, dest:Entity, cargo:String = "cash")
 		{
-			ship.add("normal", [0], 4);
-			ship.play("normal");
+			_ship.add("normal", [0], 4);
+			_ship.play("normal");
+			_ship.originX = 4;
 			
-			super(x - 4, y, ship);
+			super(start.centerX - 4, start.centerY, _ship);
 			
-			destination = new Point(dest_x - 4, dest_y);
-			start = new Point(x - 4, y);
+			_dest = dest;
+			_start = start;
 			
-			cargo = cargo_temp;
-			
-			ship.originX = 4;
+			_cargo = cargo;
 		}
 		
 		override public function update():void
 		{
-			angle_rad = Math.atan2(this.y - destination.y, this.x - destination.x);
-			ship.angle = 180 + -180 * angle_rad / Math.PI;
+			_randomer = 20 * Math.cos(_completion * Math.PI);
 			
-			x -= FP.elapsed * velocity * Math.cos(angle_rad);
-			y -= FP.elapsed * velocity * Math.sin(angle_rad);
+			if( _completion <= 1.1 )
+				_completion += FP.elapsed * 0.1;
 			
-			if( Math.abs(destination.x - x) < 10 && Math.abs(destination.y - y) < 10 )
+			_ship.angle = -90 + 180 * Math.atan2(_dest.centerY - y, _dest.centerX - x) / Math.PI;
+			
+			x = (_dest.centerX - _start.centerX) * _completion + _start.centerX;
+			y = (_dest.centerY - _start.centerY) * _completion + _start.centerY;
+			
+//			trace(x, _dest.centerX, y, _dest.centerY);
+			
+			if( Math.abs(_dest.centerX - x) < 20 && Math.abs(_dest.centerY - y) < 20 )
 				unload();
-			
 		}
 		
 		public function unload():void
@@ -55,16 +60,15 @@ package entities
 			
 			var opposite_cargo:String;
 			
-			if(cargo == "cash")
+			if(_cargo == "cash")
 			{
 				opposite_cargo = "juice";
+				Main.game.pay(40);
 			} else { 
 				opposite_cargo = "cash";
 			}
 			
-			FP.world.add(new Transport(destination.x + 4, destination.y, start.x + 4, start.y, opposite_cargo));
-			
-			Main.game.pay(40);
+			FP.world.add(new Transport(_dest, _start, opposite_cargo));
 			
 			destroy();
 		}

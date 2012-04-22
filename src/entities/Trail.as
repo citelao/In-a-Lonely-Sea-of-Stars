@@ -14,6 +14,7 @@ package entities
 		private var _time:Number; //in seconds
 		private var _counter:Number = 0;
 		private var _percent:Number = 0;
+		private var _spawned:Number;
 		
 		public function Trail(dest:Entity = null, time:Number = 5, src_x:Number = 0, src_y:Number = 0)
 		{
@@ -28,6 +29,7 @@ package entities
 			_src_y = src_y;
 			_dest = dest;
 			_time = time;
+			_spawned = 0;
 			
 			super();
 		}
@@ -38,11 +40,20 @@ package entities
 				_counter += FP.elapsed;
 			
 			_percent = _counter / _time;
+				
+			var _i:Number = 0;
+			while(_i <= Math.floor(_percent * 10) - _spawned)
+			{
+				trace("hi", _i, _spawned, _percent);
+				_i++;
+				_spawned++;
+				Main.game.add(new Transport(Main.game.earth, _dest));
+			}
 		}
 		
 		override public function render():void
 		{
-			Draw.line(_src_x, _src_y, (_dest.centerX - _src_x) * _percent + _src_x, (_dest.centerY - _src_y) * _percent + _src_y);
+			Draw.line(_src_x, _src_y, (_dest.centerX - _src_x) * _percent + _src_x, (_dest.centerY - _src_y) * _percent + _src_y, 0xff00dbff);
 			
 			super.render();
 		}

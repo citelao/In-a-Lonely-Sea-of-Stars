@@ -43,7 +43,8 @@ package
 			}
 			
 			// The warm yellow sun
-			add(new Star(5, 2, 0.5, 2));
+			var sun:Star = new Star(5, 2, 0.5, 2);
+			add(sun);
 			add(earth);
 			
 			money_disp.size = 16;
