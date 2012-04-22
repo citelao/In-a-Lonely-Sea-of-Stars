@@ -32,7 +32,7 @@ package entities
 		}
 		
 		override public function update():void
-		{
+		{			
 			if( Main.game.power >= 3 )
 			{
 				image.setFrame(7, 1);

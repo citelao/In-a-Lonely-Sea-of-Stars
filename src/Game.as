@@ -20,9 +20,9 @@ package
 		public var earth:Earth = new Earth(FP.width/2-11, FP.height/2-11);
 		public var money:int = 200;
 		
-		private var zoom:int = 1;
-		public var scale:Number = 0.1;
-		public var power:int = 1;
+		private var rawzoom:int = 1;
+		public var zoom:Number = 1;
+		public var power:int;
 
 		public var cursor:Cursor = new Cursor();
 		public var emitter:Emitter = new Emitter(Assets.DOLLAR, 4, 6);
@@ -48,11 +48,11 @@ package
 			var i:int;
 			for (i=1; i<10; i++)
 			{
-				add(new Star(Math.random() * 10, 6, Math.random() * 2 * Math.PI));
+				add(new Star(6 + Math.random(), Math.random() * 2 * Math.PI));
 			}
 			
 			// The warm yellow sun
-			var sun:Star = new Star(5, 2, 0.5, 2);
+			var sun:Star = new Star(1.5, 0.5, 2);
 			add(sun);
 			add(earth);
 			
@@ -76,13 +76,15 @@ package
 			 */
 			
 			// Raw mouse wheel data is stored as zoom.
-			zoom -= Input.mouseWheelDelta;
-			if(zoom < 1)
-				zoom = 1;
+			rawzoom -= Input.mouseWheelDelta;
+			if(rawzoom < 1)
+				rawzoom = 1;
 			
 			// The power is calculated by 50. ie every 50 scroll-wheel clicks registered by Flashpunk is one power
-			var old_power:int = power;
-			power = Math.floor(zoom / 50) + 1;
+			zoom = rawzoom / 50 + 1;
+			
+			var old_power:Number = power;
+			power = Math.floor(zoom);
 			
 			// Play a sound if the power has changed
 			if( power < old_power )
@@ -90,17 +92,6 @@ package
 			
 			if( power > old_power )
 				zoom_out_snd.play();
-			
-			// Calculate the scale (magnitude) from 1 - 10 by
-			// 1. figuring out the difference (out of 50) since the last power
-			// 2. dividing that number by 5 to get a number out of 10
-			// 3. subtracting that number from 11 to flip the number from loss to gain
-			scale = 11 - (50 * power - zoom) / 5;
-			
-			trace(zoom, power, scale, zoom / 50 + 1 );
-			
-			// Debug
-//			trace(scale.toString() + " x 10^" + power + " ly");
 			
 			if(Input.pressed(Key.ESCAPE))
 				cursor.reset_cursor();
@@ -116,34 +107,26 @@ package
 			money_disp.updateBuffer();
 		}
 		
-		public function pixel_pos(pscale:Number = 0, ppower:int = 0):Point
+		public function pixel_pos(_zoom:Number, _angle:Number):Point
 		{
 			var point:Point = new Point();
 			
-			point.x = (FP.width * (pscale + 10 * ppower)) / (2 * (Main.game.scale + 10 * Main.game.power));
-			point.y = (FP.height * (pscale + 10 * ppower)) / (2 * (Main.game.scale + 10 * Main.game.power));
+			point.x = (FP.width * _zoom * Math.cos(_angle)) / (2 * Main.game.zoom);
+			point.y = (FP.height * _zoom * Math.sin(_angle)) / (2 * Main.game.zoom);
 			
 			return point;
 		}
 		
-		public function scale_pos(x:Number = 0, y:Number = 0):Object
-		{
-			var p:Object = new Object();
+		public function scale_pos(x:Number = 0, y:Number = 0, angle:Number=0):Number
+		{				
+			var a:Number = 2 * x * Main.game.zoom / FP.width / Math.cos(angle);
+			var b:Number = 2 * y * Main.game.zoom / FP.height / Math.sin(angle);
 			
-			var d:Number = Main.game.scale + 10 * Main.game.power;
+			var c:Number = Math.sqrt(Math.pow(a, 2) + Math.pow(b, 2));
 			
-//			trace("yo", 2 * d * x / FP.width, 2 * d * y / FP.height); 
-//			2 * d * x / FP.width = r;
-//			2 * d * y / FP.height = r;
+			trace(a, b, c);
 			
-			p.zoom = Math.sqrt( (2 * d * x / FP.width) ^ 2 + (2 * d * y / FP.height) ^ 2 );
-			
-			trace(p.zoom);
-			
-			p.power = Math.floor(p.zoom / 10); // = s + 10m
-			p.scale = p.zoom - 10 * p.power;
-			
-			return p;
+			return c;
 		}
 	}
 }

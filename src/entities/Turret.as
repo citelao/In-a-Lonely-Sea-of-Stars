@@ -13,7 +13,7 @@ package entities
 		
 		private var turret:Spritemap = new Spritemap(Assets.TURRET, 100, 100);
 		private var _power:Number;
-		private var _scale:Number;
+		private var _zoom:Number;
 		private var _angle:Number = 0;
 		
 		public function Turret(x:Number=0, y:Number=0)
@@ -21,14 +21,9 @@ package entities
 			graphic = turret;
 			turret.frame = 4;
 			
-			var pt:Object = Main.game.scale_pos(x, y);
-			
-			_power = pt.power;
-			_scale = pt.scale;
-//			_angle = Math.atan2(y - Main.game.earth.centerY, x - Main.game.earth.centerX);
-			_angle = Math.PI / 2;
-			
-//			trace(_power, _scale);
+			_angle = Math.atan2(y, x);	
+			_zoom = Main.game.scale_pos(x, y, _angle);
+			_power = Math.floor(_zoom);
 			
 			pos();
 		}
@@ -47,7 +42,7 @@ package entities
 		
 		private function pos():void
 		{
-			var su:Point = Main.game.pixel_pos(_scale, _power);
+			var su:Point = Main.game.pixel_pos(_zoom, _angle);
 			
 			x = Main.game.earth.x - 39 + su.x;
 			y = Main.game.earth.y - 39 + su.y;
