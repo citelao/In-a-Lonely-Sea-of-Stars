@@ -35,7 +35,7 @@ package entities
 			setHitbox(80,80);
 			
 			_zoom = zoom;
-			_power = Math.floor(_zoom / 10);
+			_power = Math.floor(_zoom);
 			_angle = angle;
 		}
 		
@@ -49,8 +49,6 @@ package entities
 			y = Main.game.earth.y - 39 + su.y;
 			
 			_image.frame = _size + power_dif + 2;
-			
-//			trace(image.frame - Main.game.power + power);
 			
 			if(_image.frame - Main.game.power + _power <= 0)
 				_image.alpha = 0;

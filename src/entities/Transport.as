@@ -34,6 +34,10 @@ package entities
 			
 			super(start.centerX - 4, start.centerY, _ship);
 			
+			height = 3;
+			width = 7;
+			type = "transport";
+			
 			_dest = dest;
 			_start = start;
 			_power = power;

@@ -33,6 +33,8 @@ package entities
 			_spawned = 0;
 			_power = power;
 			
+			Main.game.transports += 10;
+			
 			super();
 		}
 		
@@ -43,7 +45,7 @@ package entities
 			
 			_percent = _counter / _time;
 				
-			var _i:Number = 0;
+			var _i:Number = 0;			
 			while(_i < Math.floor(_percent * 10) - _spawned)
 			{
 				trace("spawning new transport", _i, _spawned, _percent);

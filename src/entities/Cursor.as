@@ -16,6 +16,8 @@ package entities
 		private var mines:Spritemap = new Spritemap(Assets.MINE, 13, 7);
 		private var square:Image = Image.createRect(1,1,0xff000000);
 		
+		public var cursor:String = "";
+		
 		private var place:Sfx = new Sfx(Assets.SN_PLACE);
 		private var cancel:Sfx = new Sfx(Assets.SN_CANCEL);
 
@@ -59,7 +61,7 @@ package entities
 							build("mine");
 						break;
 					case turrets:						
-						if( mines.frame != 0 )
+						if( !star && Main.game.money >= 200)
 							build("turret");
 						break;
 				}
@@ -78,9 +80,12 @@ package entities
 				
 				star.harvested = true;
 				
+				Main.game._harvested.push(star);
+				
 				Main.game.pay(-200);
 				Main.game.add(new Trail(star, star._power));
 			} else { //build a turret				
+				Main.game.pay(-200);
 				Main.game.add(new Turret(Input.mouseX - Main.game.earth.centerX, - Main.game.earth.centerY + Input.mouseY));
 			}
 		}
@@ -90,6 +95,8 @@ package entities
 			graphic = mines;
 			Mouse.hide();
 				
+			cursor = "mine";
+			
 			gx = 6;
 			gy = 3;
 		}
@@ -99,6 +106,8 @@ package entities
 			graphic = turrets;
 			Mouse.hide();
 			
+			cursor = "turret";
+			
 			gx = 50;
 			gy = 50;
 		}
@@ -107,6 +116,8 @@ package entities
 		{
 			if( graphic != square )
 				cancel.play();
+			
+			cursor = "";
 			
 			graphic = square;
 			Mouse.show();

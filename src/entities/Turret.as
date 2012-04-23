@@ -3,8 +3,7 @@ package entities
 	import flash.geom.Point;
 	
 	import net.flashpunk.Entity;
-	import net.flashpunk.Graphic;
-	import net.flashpunk.Mask;
+	import net.flashpunk.Sfx;
 	import net.flashpunk.graphics.Spritemap;
 	import net.flashpunk.utils.Input;
 	
@@ -16,9 +15,13 @@ package entities
 		private var _zoom:Number;
 		private var _angle:Number = 0;
 		
+		private var sn_shoot:Sfx = new Sfx(Assets.SN_SHOOT);
+		private var _hitboxSizes:Array = new Array(100, 80, 40, 10, 3);
+		
 		public function Turret(x:Number=0, y:Number=0)
 		{
-			graphic = turret;
+			super(0, 0, turret);
+			
 			turret.frame = 4;
 			
 			_angle = Math.atan2(y, x);	
@@ -37,6 +40,13 @@ package entities
 			else
 				turret.frame = 4;
 			
+			var s:Pirate = collide("pirate", x, y) as Pirate;
+			
+			if(s && Math.random() >= .99)
+				fire(s);
+
+			setHitbox(_hitboxSizes[turret.frame], _hitboxSizes[turret.frame], -50 + _hitboxSizes[turret.frame] / 2, -50 + _hitboxSizes[turret.frame] / 2);
+			
 			pos();
 		}
 		
@@ -46,6 +56,13 @@ package entities
 			
 			x = Main.game.earth.x - 39 + su.x;
 			y = Main.game.earth.y - 39 + su.y;
+		}
+		
+		private function fire(s:Pirate):void
+		{
+			sn_shoot.play();
+			
+			Main.game.add(new Rocket(_zoom, s._fzoom, _angle, 2));
 		}
 	}
 }
