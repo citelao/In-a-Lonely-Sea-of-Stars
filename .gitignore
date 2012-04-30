@@ -19,3 +19,5 @@ xcuserdata
 # svn & cvs
 .svn
 CVS
+
+asset/screenies/Timelapse/*
