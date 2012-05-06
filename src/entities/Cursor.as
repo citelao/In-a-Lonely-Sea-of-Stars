@@ -18,19 +18,20 @@ package entities
 		
 		public var cursor:String = "";
 		
-		private var place:Sfx = new Sfx(Assets.SN_PLACE);
-		private var cancel:Sfx = new Sfx(Assets.SN_CANCEL);
+		private var _place:Sfx = new Sfx(Assets.SN_PLACE);
+		private var _cancel:Sfx = new Sfx(Assets.SN_CANCEL);
 
 		private var gx:int;
 		private var gy:int;
 		
 		public function Cursor()
-		{
-			super(0, 0, square);
+		{			
+			graphic = square;
 			
 			type = "cursor";
 			
 			square.alpha = 0;
+			turrets.frame = 1;
 			
 			gx = 0;
 			gy = 0;
@@ -46,11 +47,10 @@ package entities
 			
 			var star:Star = collide("star", x, y) as Star;
 			
-			if( star && !star.harvested && Main.game.money >= 200 ) {
+			if( star && !star.harvested && Main.game.money >= 200 )
 				mines.frame = 0;
-			} else {
+			else
 				mines.frame = 1;
-			}
 			
 			if(Input.mouseReleased)
 			{
@@ -70,7 +70,7 @@ package entities
 		
 		public function build(object:String = "mine"):void
 		{
-			place.play();
+			_place.play();
 			
 			if( object == "mine" ) { 
 				var star:Star = collide("star", x, y) as Star;
@@ -79,7 +79,6 @@ package entities
 					return;
 				
 				star.harvested = true;
-				
 				Main.game._harvested.push(star);
 				
 				Main.game.pay(-200);
@@ -115,7 +114,7 @@ package entities
 		public function reset_cursor():void
 		{
 			if( graphic != square )
-				cancel.play();
+				_cancel.play();
 			
 			cursor = "";
 			

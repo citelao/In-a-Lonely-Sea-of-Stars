@@ -16,15 +16,16 @@ package entities
 		private var _angle:Number = 0;
 		
 		private var sn_shoot:Sfx = new Sfx(Assets.SN_SHOOT);
-		private var _hitboxSizes:Array = new Array(100, 80, 40, 10, 3);
+		private var _hitboxSizes:Array = new Array(90, 82, 64, 58, 40, 30, 24, 10, 2);
 		
 		public function Turret(x:Number=0, y:Number=0)
 		{
 			super(0, 0, turret);
 			
 			turret.frame = 4;
+			turret.centerOO();		
 			
-			_angle = Math.atan2(y, x);	
+			_angle = Math.atan2(y, x);
 			_zoom = Main.game.scale_pos(x, y, _angle);
 			_power = Math.floor(_zoom);
 			
@@ -34,18 +35,18 @@ package entities
 		override public function update():void
 		{
 			var frame:int = Main.game.power - _power;
-			
-			if(frame < 4)
-				turret.frame = frame;
+						
+			if(frame < 8)
+				turret.frame = frame + 1;
 			else
-				turret.frame = 4;
+				turret.frame = 8;
 			
 			var s:Pirate = collide("pirate", x, y) as Pirate;
 			
 			if(s && Math.random() >= .99)
 				fire(s);
 
-			setHitbox(_hitboxSizes[turret.frame], _hitboxSizes[turret.frame], -50 + _hitboxSizes[turret.frame] / 2, -50 + _hitboxSizes[turret.frame] / 2);
+			setHitbox(_hitboxSizes[turret.frame], _hitboxSizes[turret.frame], _hitboxSizes[turret.frame] / 2, _hitboxSizes[turret.frame] / 2);
 			
 			pos();
 		}
@@ -54,8 +55,8 @@ package entities
 		{
 			var su:Point = Main.game.pixel_pos(_zoom, _angle);
 			
-			x = Main.game.earth.x - 39 + su.x;
-			y = Main.game.earth.y - 39 + su.y;
+			x = Main.game.earth.x + su.x;
+			y = Main.game.earth.y + su.y;
 		}
 		
 		private function fire(s:Pirate):void

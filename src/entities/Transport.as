@@ -27,13 +27,14 @@ package entities
 		
 		public function Transport(start:Entity, dest:Entity, power:Number, cargo:String = "cash")
 		{
+			// Originally planned to be an animation 
 			_ship.add("normal", [0], 4);
 			_ship.play("normal");
-			_ship.originX = 4;
-			_ship.alpha = 0;
+//			_ship.originX = -4;
 			
-			super(start.centerX - 4, start.centerY, _ship);
+			super(start.x, start.y, _ship);
 			
+			// Substantially bigger collision box for fun.
 			height = 3;
 			width = 7;
 			type = "transport";
@@ -43,27 +44,32 @@ package entities
 			_power = power;
 			_cargo = cargo;
 			
-			_random = Math.random() * 100 - 50;
+			_random = Math.random() * 200 - 100;
 			
 			layer = 1;
+			
+			pos();
 		}
 		
 		override public function update():void
-		{			
-			_ship.alpha = 1;
+		{		
+			pos();
 			
+			if( _completion >= 1 )
+				unload();
+		}
+		
+		private function pos():void
+		{
 			var power_dif:Number = _power / (Main.game.power + 1);
+			
+			_ship.angle = 180 - 180 * Math.atan2(y - _dest.y, x - _dest.x) / Math.PI;
 			
 			if( _completion <= 1.1 )
 				_completion += FP.elapsed * 0.1;
 			
-			x = (_dest.centerX - _start.centerX) * _completion + _start.centerX - _random * _completion * (_completion - 1) * power_dif;
-			y = (_dest.centerY - _start.centerY) * _completion + _start.centerY - _random * _completion * (_completion - 1) * power_dif;
-			
-			_ship.angle = 180 - 180 * Math.atan2(y - _dest.centerY, x - _dest.centerX) / Math.PI;
-			
-			if( _completion >= 1 )
-				unload();
+			x = (_dest.x - _start.x) * _completion + _start.x - _random * _completion * (_completion - 1) * power_dif;
+			y = (_dest.y - _start.y) * _completion + _start.y - _random * _completion * (_completion - 1) * power_dif;
 		}
 		
 		public function unload():void

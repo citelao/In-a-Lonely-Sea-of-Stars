@@ -17,7 +17,7 @@ package
 	
 	public class Game extends World
 	{
-		public var earth:Earth = new Earth(FP.width/2-11, FP.height/2-11);
+		public var earth:Earth = new Earth(FP.width / 2, FP.height / 2);
 		public var money:int = 200;
 		
 		private var rawzoom:int = 1;
@@ -35,18 +35,18 @@ package
 		
 		private var _tutCounter:Number = 0;
 		
-		private var zoom_out_snd:Sfx = new Sfx(Assets.SN_ZOOM_OUT);
-		private var zoom_in_snd:Sfx = new Sfx(Assets.SN_ZOOM_IN);
+		private var _zoom_out_snd:Sfx = new Sfx(Assets.SN_ZOOM_OUT);
+		private var _zoom_in_snd:Sfx = new Sfx(Assets.SN_ZOOM_IN);
 		private var money_disp:Text = new Text("$" + money.toString(), 0, 0, 50, 20);
 		private var tip_disp:Spritemap = new Spritemap(Assets.TUTORIAL, 202, 20);
 		
 		public function Game()
 		{
 			Main.game = this;
-				
-//			add(new Power());
 			
+			//Prep emitter with two animations, dollar and explode
 			addGraphic(emitter);
+			
 			emitter.newType("dollar", [0]);
 			emitter.setAlpha("dollar", 1, 0);
 			emitter.setMotion("dollar", 90, 20, 0.2, 40, 10, 0.3);
@@ -55,16 +55,16 @@ package
 			emitter.setAlpha("explode", 1, 0);
 			emitter.setMotion("explode", 0, 20, 0.4, 360, 10, 0.2);
 			
-			// Random stars
-			var i:int;
-			for (i=1; i<10; i++)
+			// Random stars for first stage of galaxy
+			// TODO full version will have multiple levels of galaxy.
+			for (var _i:int=1; _i<10; _i++)
 			{
 				add(new Star(6 + Math.random(), Math.random() * 2 * Math.PI));
 			}
 			
 			// The warm yellow sun
-			var sun:Star = new Star(1.5, 0.5, 2);
-			add(sun);
+			var _sun:Star = new Star(1.5, 0.5, 2);
+			add(_sun);
 			add(earth);
 			
 			money_disp.size = 16;
@@ -97,10 +97,10 @@ package
 			
 			// Play a sound if the power has changed
 			if( power < old_power )
-				zoom_in_snd.play();
+				_zoom_in_snd.play();
 			
 			if( power > old_power )
-				zoom_out_snd.play();
+				_zoom_out_snd.play();
 			
 			if(Input.pressed(Key.ESCAPE))
 				cursor.reset_cursor();
@@ -116,6 +116,8 @@ package
 			else
 				_pirateCounter = 0;
 			
+			
+			// Spawn transports if missing
 			if( transports < _harvested.length * 10 )
 			{
 				trace("transport deficit.");
@@ -152,13 +154,8 @@ package
 				if(_harvested.length >= 1)
 					tip_disp.frame++;
 			} else if(tip_disp.frame == 5) {
-				if( _tutCounter <= 10 )
-					_tutCounter += FP.elapsed;
-				
-				if( _tutCounter >= 10 ) {
+				if( money >= 200 )
 					tip_disp.frame++;
-					_tutCounter = 0;
-				}
 			} else if(tip_disp.frame == 6) {
 				_spawnpirates = true;
 				
@@ -177,32 +174,39 @@ package
 		
 		public function pay(amt:int):void
 		{
-			money += amt;
+//			money += amt;
 			
 			money_disp.text = "$" + money.toString();			
 			money_disp.updateBuffer();
 		}
 		
+		/* WTF? How do the following things work?
+		*
+		* width of one zoom unit = FP.width / 2 / Main.game.zoom
+		* 	radius of width / zoom level. Simple, eh? Arbitrary, too.
+		*
+		* distance from earth = object's zoom position * width of one zoom unit
+		*
+		* x position from earth = distance from earth * Math.cos(_angle)
+		* 
+		*/
+		
 		public function pixel_pos(_zoom:Number, _angle:Number):Point
 		{
-			var point:Point = new Point();
+			var distance:Number = _zoom * FP.width / 2 / Main.game.zoom;
+			var _point:Point = new Point();
+			_point.x = distance * Math.cos(_angle);
+			_point.y = distance * Math.sin(_angle);
 			
-			point.x = (FP.width * _zoom * Math.cos(_angle)) / (2 * Main.game.zoom);
-			point.y = (FP.height * _zoom * Math.sin(_angle)) / (2 * Main.game.zoom);
-			
-			return point;
+			return _point;
 		}
 		
 		public function scale_pos(x:Number = 0, y:Number = 0, angle:Number=0):Number
-		{				
-			var a:Number = 2 * x * Main.game.zoom / FP.width / Math.cos(angle);
-			var b:Number = 2 * y * Main.game.zoom / FP.height / Math.sin(angle);
+		{	
+			var distance:Number = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
+			var zoom_distance:Number = distance * 2 * Main.game.zoom / FP.width;
 			
-			var c:Number = Math.sqrt(Math.pow(a, 2) + Math.pow(b, 2));
-			
-			trace(a, b, c);
-			
-			return c;
+			return zoom_distance;
 		}
 	}
 }

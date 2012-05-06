@@ -19,17 +19,16 @@ package entities
 		public var _angle:Number;
 		public var _zoom:Number;
 		public var _power:int;
-
-		private var su:Point = new Point();
 		
 		public function Star(zoom:Number = 2.5, angle:Number=0, size:int = 0)
-		{			
-			super(x - 50, y - 50, _image);
-			
-			if(!size)
-				_size = _image.frame = Math.floor(Math.random() * 10);
-			else
+		{						
+			if(size)
 				_size = _image.frame = size;
+			else
+				_size = _image.frame = Math.floor(Math.random() * 10);
+				
+			_image.centerOO();
+			graphic = _image;
 			
 			type = "star";
 			setHitbox(80,80);
@@ -42,11 +41,10 @@ package entities
 		override public function update():void
 		{
 			var power_dif:int = Main.game.power - _power + 1;
-			
-			su = Main.game.pixel_pos(_zoom, _angle);
+			var su:Point = Main.game.pixel_pos(_zoom, _angle);
 				
-			x = Main.game.earth.x - 39 + su.x;
-			y = Main.game.earth.y - 39 + su.y;
+			x = Main.game.earth.x + su.x;
+			y = Main.game.earth.y + su.y;
 			
 			_image.frame = _size + power_dif + 2;
 			
@@ -55,7 +53,7 @@ package entities
 			else
 				_image.alpha = 1;
 			
-			setHitbox(_hitboxSizes[_image.frame], _hitboxSizes[_image.frame], -50 + _hitboxSizes[_image.frame] / 2, -50 + _hitboxSizes[_image.frame] / 2);
+			setHitbox(_hitboxSizes[_image.frame], _hitboxSizes[_image.frame], _hitboxSizes[_image.frame] / 2, _hitboxSizes[_image.frame] / 2);
 		}
 	}
 }

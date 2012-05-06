@@ -73,15 +73,10 @@ package entities
 		
 		public function explode():void 
 		{
-			Main.game.emitter.emit("explode", x, y);
-			Main.game.emitter.emit("explode", x, y);
-			Main.game.emitter.emit("explode", x, y);
-			Main.game.emitter.emit("explode", x, y);
-			Main.game.emitter.emit("explode", x, y);
-			Main.game.emitter.emit("explode", x, y);
-			Main.game.emitter.emit("explode", x, y);
-			Main.game.emitter.emit("explode", x, y);
-			
+			for (var _i:int=1; _i<10; _i++)
+			{
+				Main.game.emitter.emit("explode", x, y);	
+			}
 			
 			sn_explode.play();
 			

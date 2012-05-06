@@ -20,8 +20,8 @@ package entities
 		public function Trail(dest:Entity, power:Number, time:Number = 5, src_x:Number = 0, src_y:Number = 0)
 		{
 			if(!src_x || !src_y) {
-				src_x = Main.game.earth.x + 11;
-				src_y = Main.game.earth.y + 11;
+				src_x = Main.game.earth.x;
+				src_y = Main.game.earth.y;
 			}
 			
 			layer = 2;
