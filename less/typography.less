@@ -1,0 +1,248 @@
+/* @group Typography */
+
+@import url(http://fonts.googleapis.com/css?family=Ubuntu+Mono);
+
+/* We want each line to be 21px, font size 16 */
+
+@base-font: 1em;
+@line-height: 1.3125;
+
+// Arbitrary.
+@h1-size: 2; //32px
+@h2-size: 1.75; //28px
+@h3-size: 1.25; //20px
+@h4-size: 1; //16px
+
+@big-size: 1.125; //18px
+@small-size: 0.75; //12px
+@sub-size: 0.625; //10px
+
+.typographize(@size, pad) {
+	font-size: @size * @base-font;
+	line-height: ceil(@size / @line-height)  * @line-height / @size;
+	padding-bottom: @base-font * @line-height / @size;
+}
+
+.typographize(@size, inline) {
+	font-size: @size * @base-font;
+	line-height: @size * @base-font;
+}
+
+body {
+	font: @base-font ~"/" @line-height Arial, sans-serif;
+}
+
+h5,
+h6,
+h7,
+dl,
+ol,
+p,
+pre,
+table,
+ul {
+	padding-bottom: @line-height * @base-font;
+}
+
+blockquote {
+	margin-bottom: @line-height * @base-font;
+}
+
+/* @group Headers */
+
+h1, .alpha,
+h2, .beta,
+h3, .gamma,
+h4, .delta,
+h5, .epsilon,
+h6, .zeta,
+h7, .eta {
+	font-weight: bold;
+	
+	& > strong {
+		font-variant: small-caps;
+	}
+}
+
+h1, .alpha {
+	.typographize(@h1-size, pad);
+}
+
+h2, .beta {
+	.typographize(@h2-size, pad);}
+
+h3, .gamma {
+	.typographize(@h3-size, pad);
+}
+
+h4, .delta {
+	.typographize(@h4-size, pad);
+}
+
+/* @end */
+
+a {
+	text-decoration: none;
+	
+	&:hover {
+		border-bottom: 1px solid #333;
+	}
+	
+	&:active {
+		top: 1px;
+	}
+	
+	&:focus {
+		outline: thin dotted;
+	}
+}
+
+/* @group Tooltips */
+	.tooltip {
+		border-bottom: 1px dotted;
+		cursor: pointer;
+	}
+	
+		.tooltip:hover:after,
+		acronym:hover:after {
+			content: attr(title);
+			
+			background: rgba(0,0,0,.8);
+			border-radius: 5px;
+			color: #fff;
+			position: absolute;
+			text-decoration: none;
+			margin: -5px 5px;
+			padding: 5px;
+		}
+/* @end */
+
+acronym {
+	border-bottom: 1px dotted #333;
+	cursor: help;
+}
+
+big {
+	.typographize(@big-size, inline);
+}
+
+blockquote {
+	padding-left: 22px;
+	border-left: 10px solid #999;
+}
+
+	blockquote > cite {
+		color: #999;
+		
+		&:before {
+			content: " —";
+		}
+	}
+
+code {
+	border-radius: 2px;
+	color: #93a1a1;
+	font-family: Menlo, monospace;
+/*	font-size: 16px;*/
+	margin: -4px 0;
+	padding: 4px;
+	-moz-box-shadow: inset 0 0 1px rgba(0, 0, 0, 0.5);
+	-webkit-box-shadow: inset 0 0 1px rgba(0, 0, 0, 0.5);
+	box-shadow: inset 0 0 1px rgba(0, 0, 0, 0.5);
+	background-color: #002b36;
+}
+
+	pre > code {
+		display: block;
+		margin: 13px 16px -4px -4px;
+		overflow-x: scroll;
+	}
+
+del {
+	color: rgba(1.0, 1.0, 1.0, 0.5);
+	-webkit-transition: color 0.2s ease-in-out;
+	
+	&:hover {
+		color: rgba(1.0, 1.0, 1.0, 1.0);
+		text-decoration: none;
+		-webkit-transition: color 0.2s ease-in-out;
+	}
+}
+
+.ir {
+	display: block;
+	border: 0;
+	text-indent: -999em;
+	overflow: hidden;
+	background-color: transparent;
+	background-repeat: no-repeat;
+	text-align: left;
+	direction: ltr;
+	
+	*line-height:0;
+	
+	br {
+		display: none;
+	}
+}
+
+kbd {
+	border-top: 2px outset;
+	border-left: 2px outset;
+	border-right: 3px outset;
+	border-bottom: 4px outset;
+	border-radius: 4px;
+}
+
+strong {
+	font-weight: bold;
+}
+
+sub,
+sup {
+	.typographize(@sub-size, inline);
+}
+
+	sub {
+		top: 5px;
+		vertical-align: sub;
+	}
+	
+	sup {
+		vertical-align: super;
+	}
+
+small {
+	.typographize(@small-size, inline);
+}
+
+/* @group Lists */
+
+ol,
+ul {
+	margin-left: 21px;
+}
+
+	ol {
+		list-style: decimal;
+	}
+	
+	ul {
+		list-style: square;
+		
+		&.unmarked {
+			list-style: none;
+			margin-left: 0;
+		}
+	}
+	
+	ul ul,
+	ul ol,
+	ol ul,
+	ol ol {
+		padding-bottom: 0;
+	}
+
+/* @end */
+
+/* @end  */
