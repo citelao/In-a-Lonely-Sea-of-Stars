@@ -1,0 +1,163 @@
+/* @group Layout & GS */
+
+/* @group Clearfix */
+/* http://nicolasgallagher.com/micro-clearfix-hack/ */
+
+.cf {
+    zoom:1;
+    
+    &:before,
+    &:after {
+        content:"";
+        display:table;
+    }
+    
+    &:after {
+        clear:both;
+    }
+}
+
+/* @end */
+
+/* How the layouts work 
+	
+	320-480px - fluid mobile
+	480-660px - fixed mobile
+	660-960px - small desktop
+	960-infin - desktop
+*/
+
+/* @group Basic (320px) */
+body {
+	width: 90%;
+	margin: 20px auto -20px;
+	min-width: 320px;
+}
+	
+	/* stolen from inuit.css */
+	.grids {
+		list-style:none;
+		clear:both;
+		.cf;
+	}
+	
+	[class^="grid-"]{
+		float:left;
+		padding: 0 10px 0 0;
+		width: 100%;
+	}
+	
+	/* Allow nested grids: */
+	[class^="grid-"] .grids {
+		width:auto;
+		padding: 0;
+		margin:0 -10px;
+	}
+	
+	.gridify(@columns) { width: @column-width * @columns - @column-margin; }
+	
+	#site-nav {	
+		ul {
+			margin-left: 0;
+		}
+	
+		li {
+			display: block;
+			
+			a {
+				display: block;
+				padding: 5px;
+			}
+		}
+	}
+	
+	.to-nav {
+		position: absolute;
+		float: right;
+		top: 15px;
+		right: 20px;
+		
+		&:active {
+			position: absolute;
+			top: 16px;
+		}
+	}
+/* @end */
+
+@media screen and (min-width: 480px) {
+	body {
+		width: 440px;
+	}
+}
+
+@media screen and (min-width: 680px) {
+	.grids { margin: 0 0 0 -10px; }
+	
+	[class^="grid-"] { margin: 0 10px 0 0;	
+		.grids & { margin:0 0 0 10px; } }
+
+	@body-width: 660px;
+	@total-columns: 12;
+	@column-width: @body-width/@total-columns;
+	@column-margin: 10px;
+
+	body { width: @body-width; }
+	
+	.grid-1  { .gridify( 1) }
+	.grid-2  { .gridify( 2) }
+	.grid-3  { .gridify( 3) }
+	.grid-4  { .gridify( 4) }
+	.grid-5  { .gridify( 5) }
+	.grid-6  { .gridify( 6) }
+	.grid-7  { .gridify( 7) }
+	.grid-8  { .gridify( 8) }
+	.grid-9  { .gridify( 9) }
+	.grid-10 { .gridify(10) }
+	.grid-11 { .gridify(11) }
+	.grid-12 { .gridify(12) }
+	
+	#site-nav {
+		float:  right;
+		
+		position: absolute;
+		top:  15px;
+		right: 20px;
+		
+		li {
+			display: inline;
+			
+			a {
+				display: inline;
+			}
+		}
+	}
+	
+	.to-nav {
+		display: none;
+	}
+}
+
+
+@media screen and (min-width: 980px) {
+	@body-width: 960px;
+	@total-columns: 12;
+	@column-width: @body-width/@total-columns;
+	@column-margin: 10px;
+	
+	body { width: @body-width; }
+	
+	.grid-1  { .gridify( 1) }
+	.grid-2  { .gridify( 2) }
+	.grid-3  { .gridify( 3) }
+	.grid-4  { .gridify( 4) }
+	.grid-5  { .gridify( 5) }
+	.grid-6  { .gridify( 6) }
+	.grid-7  { .gridify( 7) }
+	.grid-8  { .gridify( 8) }
+	.grid-9  { .gridify( 9) }
+	.grid-10 { .gridify(10) }
+	.grid-11 { .gridify(11) }
+	.grid-12 { .gridify(12) }
+}
+
+/* @end */
