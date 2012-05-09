@@ -174,7 +174,7 @@ package
 		
 		public function pay(amt:int):void
 		{
-//			money += amt;
+			money += amt;
 			
 			money_disp.text = "$" + money.toString();			
 			money_disp.updateBuffer();

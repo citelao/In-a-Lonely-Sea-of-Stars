@@ -14,7 +14,7 @@ package
 		{			
 			super(320, 240);
 			
-			FP.console.enable();
+//			FP.console.enable();
 			
 			FP.screen.scale = 2;
 			FP.screen.color = 0x0024273d;
